@@ -1,0 +1,7 @@
+# A large move. Stresses the joint speed limit (REQ-004) and the settling time (REQ-003).
+name: reach_large
+description: Large reach across much of the joint range; stresses speed and settling time.
+seed: 7
+episode_steps: 2000       # 4.0 simulated seconds; the big move needs longer to settle
+target_qpos_rad: [1.0, -0.8, 0.6]
+tolerance_rad: 0.02

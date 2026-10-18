@@ -1,0 +1,50 @@
+<!--
+  A 3-joint planar arm that moves in the horizontal (x-y) plane, like a SCARA robot.
+
+  Why horizontal: every hinge axis is vertical (z), so gravity produces no torque about any
+  joint and a plain PD controller can reach the target exactly. Mutation to try later: change
+  the joint axis below to "0 1 0" (a vertical arm) and watch REQ-002 fail because of gravity sag.
+
+  Why inline and tiny: no download, loads in milliseconds, and every number is visible here.
+  To use a real robot from MuJoCo Menagerie instead, see "Swapping in a real arm" in README.md.
+
+  Units: metres, kilograms, seconds, radians.
+-->
+<mujoco model="simple_arm">
+  <!-- MuJoCo reads angles in DEGREES unless told otherwise. Everything in this project is radians. -->
+  <compiler angle="radian"/>
+
+  <!-- 0.002 s per physics step = 500 steps per simulated second. -->
+  <option timestep="0.002"/>
+
+  <default>
+    <!-- Every joint is a hinge about z with the same limits.
+         armature: extra rotor inertia so the light wrist and the heavy shoulder respond at
+         similar speeds under the same PD gains. damping: a little friction so nothing rings. -->
+    <joint type="hinge" axis="0 0 1" range="-3.0 3.0" armature="0.1" damping="0.2"/>
+    <geom type="capsule" size="0.03"/>
+  </default>
+
+  <worldbody>
+    <body name="link1" pos="0 0 0">
+      <joint name="shoulder"/>
+      <geom name="link1_geom" fromto="0 0 0 0.30 0 0" mass="1.0"/>
+      <body name="link2" pos="0.30 0 0">
+        <joint name="elbow"/>
+        <geom name="link2_geom" fromto="0 0 0 0.25 0 0" mass="0.6"/>
+        <body name="link3" pos="0.25 0 0">
+          <joint name="wrist"/>
+          <geom name="link3_geom" fromto="0 0 0 0.15 0 0" mass="0.3"/>
+          <site name="tip" pos="0.15 0 0"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <!-- One torque motor per joint, in joint order. runner.py relies on this 1:1 order. -->
+  <actuator>
+    <motor name="shoulder_motor" joint="shoulder" ctrlrange="-20 20"/>
+    <motor name="elbow_motor"    joint="elbow"    ctrlrange="-20 20"/>
+    <motor name="wrist_motor"    joint="wrist"    ctrlrange="-20 20"/>
+  </actuator>
+</mujoco>

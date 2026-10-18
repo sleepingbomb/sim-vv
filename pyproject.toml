@@ -1,0 +1,45 @@
+# Project metadata and tool settings. One file replaces setup.py, requirements.txt,
+# pytest.ini and ruff.toml, so there is one place to look.
+
+[build-system]
+# setuptools is the plain, widely understood way to make "pip install -e ." work.
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sim-vv"
+version = "0.1.0"
+description = "Scenario-based regression test and V&V harness for a MuJoCo robot-arm simulation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "mujoco>=3.1",   # the physics simulator (runs headless; no GPU, no display needed)
+  "numpy>=1.26",   # arrays for joint positions; mujoco already depends on it, we import it directly
+  "pydantic>=2.0", # validates scenario files and produces readable error messages
+  "pyyaml>=6.0",   # reads the scenario .yaml files
+]
+
+[project.optional-dependencies]
+# Tools needed to develop and test, not to run: install with  pip install -e ".[dev]"
+dev = [
+  "pytest>=8",
+  "pytest-cov>=5",
+  "ruff>=0.5",
+]
+
+[tool.setuptools]
+packages = ["sim_vv"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# -ra prints a summary of every non-passing test, so the xfail reasons
+# (the TODO(student) list) show up at the end of every run.
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+# E/F: errors and pyflakes (default). I: import sorting. UP: modern syntax. B: common bugs.
+select = ["E", "F", "I", "UP", "B"]
