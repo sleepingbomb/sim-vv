@@ -33,7 +33,7 @@ packages = ["sim_vv"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 # -ra prints a summary of every non-passing test, so the xfail reasons
-# (the TODO(student) list) show up at the end of every run.
+# (the TODO list) show up at the end of every run.
 addopts = "-ra"
 
 [tool.ruff]

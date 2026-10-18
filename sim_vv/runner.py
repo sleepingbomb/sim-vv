@@ -24,7 +24,7 @@ DEFAULT_MODEL = ROOT / "models" / "simple_arm.xml"
 DEFAULT_RESULTS_DIR = ROOT / "results"
 
 # PD controller gains, the same for every joint on purpose: easy to reason about and easy to
-# break on purpose (the roadmap's "mutation check": lower KP and watch REQ-002 fail).
+# break on purpose (a mutation check: lower KP and watch REQ-002 fail).
 #   torque = KP * (target - position) - KD * velocity
 KP = 12.0  # N*m per radian of position error
 KD = 4.0  # N*m per radian/second of joint velocity

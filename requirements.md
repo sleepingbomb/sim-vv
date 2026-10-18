@@ -19,7 +19,7 @@ Every requirement is checked against every scenario file in `scenarios/`.
 
 - REQ-001, REQ-002, REQ-005: verified by passing tests.
 - REQ-003, REQ-004: tests are written, but they call `time_to_goal` and `max_joint_velocity`,
-  which are `TODO(student)` in `sim_vv/metrics.py`. Until you implement them, those tests are
+  which are still `TODO` in `sim_vv/metrics.py`. Until I implement them, those tests are
   marked xfail (expected failure) and show up as the TODO list at the end of every pytest run.
 
 ## Adding a requirement
@@ -28,4 +28,4 @@ Every requirement is checked against every scenario file in `scenarios/`.
 2. Add a `test_req_<id>_<short_name>` function to `tests/test_requirements.py`.
 3. Add a row to `traceability.md`.
 
-`python -m pytest tests/test_traceability.py` tells you if you missed one of the three.
+`python -m pytest tests/test_traceability.py` fails if one of the three was missed.

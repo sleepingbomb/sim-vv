@@ -1,8 +1,7 @@
 # Traceability matrix
 
-Requirement -> test -> scenarios -> status. Hand-maintained for now; roadmap build step 6
-replaces this file with a generator. `tests/test_traceability.py` fails if an ID here is missing
-from `requirements.md` or has no test.
+Requirement -> test -> scenarios -> status. Hand-maintained for now; a generator for it is next.
+`tests/test_traceability.py` fails if an ID here is missing from `requirements.md` or has no test.
 
 | Requirement | Test in `tests/test_requirements.py` | Scenarios | Status |
 |---|---|---|---|

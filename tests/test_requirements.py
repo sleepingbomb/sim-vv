@@ -54,7 +54,7 @@ def test_req_002_final_error_within_tolerance(scenario_path, tmp_path):
 @pytest.mark.xfail(
     raises=NotImplementedError,
     strict=True,
-    reason="TODO(student): implement metrics.time_to_goal, then delete this marker",
+    reason="TODO: implement metrics.time_to_goal, then delete this marker",
 )
 def test_req_003_reaches_goal_in_first_half(scenario_path, tmp_path):
     """REQ-003: the arm first comes within tolerance no later than halfway through the episode."""
@@ -66,7 +66,7 @@ def test_req_003_reaches_goal_in_first_half(scenario_path, tmp_path):
 @pytest.mark.xfail(
     raises=NotImplementedError,
     strict=True,
-    reason="TODO(student): implement metrics.max_joint_velocity, then delete this marker",
+    reason="TODO: implement metrics.max_joint_velocity, then delete this marker",
 )
 def test_req_004_joint_speed_under_limit(scenario_path, tmp_path):
     """REQ-004: no joint ever moves faster than the speed cap."""

@@ -3,8 +3,8 @@
 The three stubbed metrics already have complete tests, marked xfail with two options:
   raises=NotImplementedError  only the stub's exception counts as "expected to fail";
                               a wrong implementation fails the test like any other failure.
-  strict=True                 once your implementation passes, pytest reports XPASS(strict)
-                              as a FAILURE, which tells you to delete the marker. You cannot forget.
+  strict=True                 once the implementation passes, pytest reports XPASS(strict)
+                              as a FAILURE, which is the reminder to delete the marker.
 
 Floats: compare with pytest.approx, never ==. In binary floating point 0.25 - 0.20 is
 0.04999999999999999, not 0.05.
@@ -28,7 +28,7 @@ def test_final_error_is_the_largest_joint_error_at_the_last_step():
 @pytest.mark.xfail(
     raises=NotImplementedError,
     strict=True,
-    reason="TODO(student): implement metrics.success, then delete this marker",
+    reason="TODO: implement metrics.success, then delete this marker",
 )
 def test_success_requires_staying_within_tolerance_for_the_last_steps():
     target = np.array([0.0, 0.0])
@@ -42,7 +42,7 @@ def test_success_requires_staying_within_tolerance_for_the_last_steps():
 @pytest.mark.xfail(
     raises=NotImplementedError,
     strict=True,
-    reason="TODO(student): implement metrics.time_to_goal, then delete this marker",
+    reason="TODO: implement metrics.time_to_goal, then delete this marker",
 )
 def test_time_to_goal_is_the_first_time_all_joints_are_within_tolerance():
     times = np.array([0.1, 0.2, 0.3, 0.4])
@@ -56,7 +56,7 @@ def test_time_to_goal_is_the_first_time_all_joints_are_within_tolerance():
 @pytest.mark.xfail(
     raises=NotImplementedError,
     strict=True,
-    reason="TODO(student): implement metrics.max_joint_velocity, then delete this marker",
+    reason="TODO: implement metrics.max_joint_velocity, then delete this marker",
 )
 def test_max_joint_velocity_uses_finite_differences():
     times = np.array([0.0, 0.1, 0.2])

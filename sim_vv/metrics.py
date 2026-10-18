@@ -8,8 +8,8 @@ Inputs are always the arrays that runner.run_scenario returns:
     positions  shape (n_steps, n_joints)   joint angles in radians after each step
     target     shape (n_joints,)           goal angle per joint, in radians
 
-Only final_error is implemented. The other three are yours to write (TODO(student)):
-replace the `raise NotImplementedError` line with your code, then remove the
+Only final_error is implemented so far. The other three are TODO: replace the
+`raise NotImplementedError` line with the implementation, then remove the
 @pytest.mark.xfail marker from the matching tests and run `python -m pytest`.
 """
 
@@ -39,8 +39,8 @@ def success(
         rows [[0.5, 0.5], [0.01, -0.01], [0.0, 0.0], [0.005, 0.0]] -> True  (last 3 rows ok)
         rows [[0.0, 0.0], [0.0, 0.0], [0.03, 0.0], [0.0, 0.0]]     -> False (0.03 is too far)
     """
-    # TODO(student): implement. Hint: look at positions[-settle_steps:] and np.abs, np.all.
-    raise NotImplementedError("TODO(student): metrics.success is not implemented yet")
+    # TODO: implement. Plan: positions[-settle_steps:], then np.abs and np.all.
+    raise NotImplementedError("TODO: metrics.success is not implemented yet")
 
 
 def time_to_goal(
@@ -55,9 +55,9 @@ def time_to_goal(
         times [0.1, 0.2, 0.3, 0.4], rows [[1, 1], [0.5, 0.5], [0.01, -0.01], [0, 0]] -> 0.3
         same times, rows that never get within 0.02                                  -> inf
     """
-    # TODO(student): implement. Hint: a boolean per row (np.all over joints), then np.argmax
-    # finds the first True, but check that at least one row is True first.
-    raise NotImplementedError("TODO(student): metrics.time_to_goal is not implemented yet")
+    # TODO: implement. Plan: a boolean per row (np.all over joints), then np.argmax finds
+    # the first True, after checking that at least one row is True.
+    raise NotImplementedError("TODO: metrics.time_to_goal is not implemented yet")
 
 
 def max_joint_velocity(times: np.ndarray, positions: np.ndarray) -> float:
@@ -71,5 +71,5 @@ def max_joint_velocity(times: np.ndarray, positions: np.ndarray) -> float:
     Example: times [0.0, 0.1, 0.2], rows [[0, 0], [0.1, 0], [0.1, -0.3]]
         speeds between rows: [[1.0, 0.0], [0.0, 3.0]] -> 3.0
     """
-    # TODO(student): implement. Hint: np.diff(positions, axis=0) and np.diff(times).
-    raise NotImplementedError("TODO(student): metrics.max_joint_velocity is not implemented yet")
+    # TODO: implement. Plan: np.diff(positions, axis=0) over np.diff(times).
+    raise NotImplementedError("TODO: metrics.max_joint_velocity is not implemented yet")

@@ -7,8 +7,8 @@ robot-arm simulation. Scenarios are YAML files, requirements are written down wi
 thresholds, every requirement has a pytest test that runs against every scenario, and GitHub
 Actions runs the whole thing on every push.
 
-**Status: scaffold.** The runner, the scenario loader, one metric and the test harness work.
-Three metrics are deliberately left for the student to write; see "What is yours to write".
+**Status: work in progress.** The runner, the scenario loader, one metric and the test harness work.
+Three metrics are still on my to-do list; see "What is next".
 
 ## Why this exists
 
@@ -29,7 +29,7 @@ requirements.md ──▶ tests/test_requirements.py ◀─────┘
 traceability.md ◀── tests/test_traceability.py   (fails if the REQ IDs in the three files disagree)
 
 .github/workflows/ci.yml:  pip install -e ".[dev]"  →  ruff check .  →  pytest --cov
-                                                                            * = TODO(student)
+                                                                            * = TODO
 ```
 
 The robot is `models/simple_arm.xml`: a 3-joint planar arm (shoulder, elbow, wrist) that moves in
@@ -78,16 +78,16 @@ ruff check .
 ```
 
 Expected: all tests pass except a block of `XFAIL` entries whose reasons start with
-`TODO(student)`. That block is your to-do list. Coverage, as in CI:
+`TODO`. That block is the list of metrics I have not written yet. Coverage, as in CI:
 
 ```bash
 python -m pytest --cov=sim_vv --cov-report=term-missing
 ```
 
-## What is yours to write
+## What is next
 
-Per the roadmap's rule, AI wrote the scaffolding, docstrings and tests; the core logic is yours.
-Three functions in `sim_vv/metrics.py` are stubs that raise `NotImplementedError`:
+Three functions in `sim_vv/metrics.py` are still stubs that raise `NotImplementedError`. I wrote
+the tests first, with hand-computed expected values, so each function has a target to hit:
 
 | Function | Used by | Test with hand-computed values |
 |---|---|---|
@@ -95,16 +95,13 @@ Three functions in `sim_vv/metrics.py` are stubs that raise `NotImplementedError
 | `time_to_goal` | REQ-003 | `test_metrics.py::test_time_to_goal_...` and `test_requirements.py::test_req_003_...` |
 | `max_joint_velocity` | REQ-004 | `test_metrics.py::test_max_joint_velocity_...` and `test_requirements.py::test_req_004_...` |
 
-Each docstring states the exact definition and a worked example. The matching tests are already
-written and marked `@pytest.mark.xfail(raises=NotImplementedError, strict=True, ...)`:
+Each docstring states the exact definition and a worked example. The matching tests are marked
+`@pytest.mark.xfail(raises=NotImplementedError, strict=True, ...)`, so finishing one goes like this:
 
-1. Replace the `raise NotImplementedError(...)` line with your implementation.
-2. Run `python -m pytest`. A correct implementation now shows up as `XPASS(strict)`, which pytest
-   counts as a failure on purpose: it is telling you to delete the marker.
-3. Delete the `@pytest.mark.xfail(...)` block above those tests. Run again. Green.
-
-Then read `sim_vv/scenario.py` and the tests line by line and rewrite anything you cannot explain
-in two sentences (the roadmap's rule), and put your explanations in `docs/why.md`.
+1. Replace the `raise NotImplementedError(...)` line with the implementation.
+2. Run `python -m pytest`. A correct implementation shows up as `XPASS(strict)`, which pytest
+   counts as a failure on purpose: it is the reminder to delete the marker.
+3. Delete the `@pytest.mark.xfail(...)` block above that test. Run again. Green.
 
 ## Mutation checks (prove the suite catches regressions)
 
@@ -125,7 +122,7 @@ git clone https://github.com/google-deepmind/mujoco_menagerie ../mujoco_menageri
 ```
 
 Then call `run_scenario(scenario, model_path=Path("../mujoco_menagerie/universal_robots_ur5e/ur5e.xml"))`
-and give the scenario one target per joint. Three things will need your attention, in this order:
+and give the scenario one target per joint. Three things need work, in this order:
 
 1. **Actuators.** The runner needs one torque motor per joint (`nq == nu`) and raises a clear
    error otherwise. Menagerie arms ship with position actuators, where `ctrl` is a target angle,
@@ -152,11 +149,11 @@ results/           CSV logs, regenerated on every run (git-ignored)
 
 ## Limitations and what comes next
 
-- Three scenarios, one controller, one arm. The roadmap targets 20+ scenarios and 3 controller versions.
-- The traceability matrix is hand-maintained; roadmap build step 6 is a generator.
-- No results database, dashboard, triage tooling or property-based tests yet (roadmap steps 7 to 9).
+- Three scenarios, one controller, one arm. The plan is 20+ scenarios and 3 controller versions.
+- The traceability matrix is hand-maintained; a generator for it is next.
+- No results database, dashboard, triage tooling or property-based tests yet; those come after the metrics.
 - Determinism is checked on one machine. Cross-platform bit-equality is not promised by MuJoCo;
-  if CI and your Mac ever disagree, that is a finding to write up, not a flaky test to retry.
+  if CI and my Mac ever disagree, that is a finding to write up, not a flaky test to retry.
 
 ## License
 
