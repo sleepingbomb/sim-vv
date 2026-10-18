@@ -1,12 +1,11 @@
 # sim-vv
 
+![ci](https://github.com/sleepingbomb/sim-vv/actions/workflows/ci.yml/badge.svg)
+
 A scenario-based regression test and V&V (verification and validation) harness for a MuJoCo
 robot-arm simulation. Scenarios are YAML files, requirements are written down with IDs and
 thresholds, every requirement has a pytest test that runs against every scenario, and GitHub
 Actions runs the whole thing on every push.
-
-<!-- Once the repo is on GitHub, replace OWNER and paste this line at the top:
-![ci](https://github.com/OWNER/sim-vv/actions/workflows/ci.yml/badge.svg) -->
 
 **Status: scaffold.** The runner, the scenario loader, one metric and the test harness work.
 Three metrics are deliberately left for the student to write; see "What is yours to write".
@@ -158,3 +157,7 @@ results/           CSV logs, regenerated on every run (git-ignored)
 - No results database, dashboard, triage tooling or property-based tests yet (roadmap steps 7 to 9).
 - Determinism is checked on one machine. Cross-platform bit-equality is not promised by MuJoCo;
   if CI and your Mac ever disagree, that is a finding to write up, not a flaky test to retry.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
