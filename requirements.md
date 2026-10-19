@@ -25,7 +25,10 @@ Every requirement is checked against every scenario file in `scenarios/`.
 ## Adding a requirement
 
 1. Add a row here with the next ID.
-2. Add a `test_req_<id>_<short_name>` function to `tests/test_requirements.py`.
+2. Add a `test_req_<id>_<short_name>` function to `tests/test_requirements.py`. If its threshold
+   is the same for every scenario, make it a named constant there and add the constant to
+   `SHARED_THRESHOLDS` in `tests/test_traceability.py`.
 3. Add a row to `traceability.md`.
 
-`python -m pytest tests/test_traceability.py` fails if one of the three was missed.
+`python -m pytest tests/test_traceability.py` fails if one of the three was missed, if the
+matrix names a test that does not exist, or if a shared threshold here and its constant differ.

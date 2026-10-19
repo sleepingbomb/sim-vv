@@ -1,8 +1,8 @@
 """Requirement checks: one test per REQ in requirements.md, run against every scenario file.
 
 Thresholds that are the same for every scenario live here as constants AND in requirements.md;
-keep the two in sync (test_traceability.py checks the IDs, not the numbers). Per-scenario
-thresholds (tolerance_rad) come from the scenario file itself.
+test_traceability.py fails if the two disagree (a new constant needs an entry in its
+SHARED_THRESHOLDS). Per-scenario thresholds (tolerance_rad) come from the scenario file itself.
 """
 
 import csv
