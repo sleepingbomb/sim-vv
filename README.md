@@ -7,8 +7,8 @@ validation) process wants them: scenarios are YAML files, requirements have IDs 
 every requirement has a pytest test that runs against every scenario, and GitHub Actions runs the
 lot on every push.
 
-**Status: work in progress.** The runner, the scenario loader, one metric and the test harness
-work. Three metrics are still on my to-do list, see "What is next".
+**Status: work in progress.** The runner, the scenario loader, two metrics and the test harness
+work. Two metrics are still on my to-do list, see "What is next".
 
 ## Why this exists
 
@@ -26,7 +26,7 @@ scenarios/*.yaml ──▶ sim_vv/scenario.py ──▶ sim_vv/runner.py ──�
                                                      │
 requirements.md ──▶ tests/test_requirements.py ◀─────┘
   REQ-001..005        one test per REQ, run on every scenario
-                      uses sim_vv/metrics.py: final_error, success*, time_to_goal*, max_joint_velocity*
+                      uses sim_vv/metrics.py: final_error, success*, time_to_goal*, max_joint_velocity
 traceability.md ◀── tests/test_traceability.py   (IDs, test names and thresholds must agree)
 
 .github/workflows/ci.yml:  pip install -e ".[dev]"  →  ruff check .  →  pytest --cov
@@ -89,14 +89,13 @@ python -m pytest --cov=sim_vv --cov-report=term-missing
 
 ## What is next
 
-Three functions in `sim_vv/metrics.py` are still stubs that raise `NotImplementedError`. I wrote
+Two functions in `sim_vv/metrics.py` are still stubs that raise `NotImplementedError`. I wrote
 the tests first, with hand-computed expected values, so each one has a target to hit:
 
 | Function | Used by | Test with hand-computed values |
 |---|---|---|
 | `success` | (unit test only, for now) | `tests/test_metrics.py::test_success_requires_staying_within_tolerance_for_the_last_steps` |
 | `time_to_goal` | REQ-003 | `test_metrics.py::test_time_to_goal_...` and `test_requirements.py::test_req_003_...` |
-| `max_joint_velocity` | REQ-004 | `test_metrics.py::test_max_joint_velocity_...` and `test_requirements.py::test_req_004_...` |
 
 Each docstring has the definition and a worked example. The tests are marked
 `@pytest.mark.xfail(raises=NotImplementedError, strict=True, ...)`, so finishing one goes:

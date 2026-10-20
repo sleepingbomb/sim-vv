@@ -1,6 +1,6 @@
 """Unit tests for sim_vv/metrics.py with hand-computed expected values.
 
-The three metrics that are not written yet already have tests, marked
+The two metrics that are not written yet already have tests, marked
 xfail(raises=NotImplementedError, strict=True). raises= means only the stub's exception counts
 as expected, so a wrong implementation still fails; strict= means that once the implementation
 passes, pytest reports XPASS(strict) as a failure until the marker is removed.
@@ -52,11 +52,6 @@ def test_time_to_goal_is_the_first_time_all_joints_are_within_tolerance():
     assert time_to_goal(times, never_arrives, target, tolerance_rad=0.02) == math.inf
 
 
-@pytest.mark.xfail(
-    raises=NotImplementedError,
-    strict=True,
-    reason="TODO: implement metrics.max_joint_velocity, then delete this marker",
-)
 def test_max_joint_velocity_uses_finite_differences():
     times = np.array([0.0, 0.1, 0.2])
     positions = np.array([[0.0, 0.0], [0.1, 0.0], [0.1, -0.3]])

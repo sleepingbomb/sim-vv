@@ -61,11 +61,6 @@ def test_req_003_reaches_goal_in_first_half(scenario_path, tmp_path):
     assert reached_at <= TIME_TO_GOAL_MAX_FRACTION * times[-1]
 
 
-@pytest.mark.xfail(
-    raises=NotImplementedError,
-    strict=True,
-    reason="TODO: implement metrics.max_joint_velocity, then delete this marker",
-)
 def test_req_004_joint_speed_under_limit(scenario_path, tmp_path):
     """REQ-004: no joint ever moves faster than the speed cap."""
     _, times, positions, _ = run(scenario_path, tmp_path)

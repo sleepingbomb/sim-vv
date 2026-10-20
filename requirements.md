@@ -17,10 +17,10 @@ Every requirement is checked against every scenario file in `scenarios/`.
 
 ## Status
 
-- REQ-001, REQ-002, REQ-005: verified by passing tests.
-- REQ-003, REQ-004: the tests exist but call `time_to_goal` and `max_joint_velocity`, which are
-  still stubs in `sim_vv/metrics.py`. Until I write them those tests are marked xfail and show
-  up as the TODO list at the end of every pytest run.
+- REQ-001, REQ-002, REQ-004, REQ-005: verified by passing tests.
+- REQ-003: the test exists but calls `time_to_goal`, which is still a stub in `sim_vv/metrics.py`.
+  Until I write it that test is marked xfail and shows up as the TODO list at the end of every
+  pytest run.
 
 ## Adding a requirement
 

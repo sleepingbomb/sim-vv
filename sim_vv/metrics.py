@@ -6,8 +6,9 @@ No MuJoCo and no file I/O in here, so everything can be unit-tested with small h
     positions  (n_steps, n_joints)   joint angles in radians after each step
     target     (n_joints,)           goal angle per joint, radians
 
-Only final_error is done. For the other three: replace the `raise NotImplementedError` line,
-then delete the @pytest.mark.xfail marker on the matching tests and run pytest.
+final_error and max_joint_velocity are done. For the other two: replace the
+`raise NotImplementedError` line, then delete the @pytest.mark.xfail marker on the matching tests
+and run pytest.
 """
 
 import numpy as np
@@ -66,5 +67,6 @@ def max_joint_velocity(times: np.ndarray, positions: np.ndarray) -> float:
     Example: times [0.0, 0.1, 0.2], rows [[0, 0], [0.1, 0], [0.1, -0.3]]
         speeds between rows: [[1.0, 0.0], [0.0, 3.0]] -> 3.0
     """
-    # TODO: np.diff(positions, axis=0) / np.diff(times)[:, None]
-    raise NotImplementedError("TODO: metrics.max_joint_velocity is not implemented yet")
+    # one speed per joint for each pair of consecutive rows; [:, None] pairs each row with its dt
+    speeds = np.abs(np.diff(positions, axis=0) / np.diff(times)[:, None])
+    return float(speeds.max())
