@@ -1,8 +1,8 @@
-# A short move from (near) the rest pose. The easy case every controller version must pass.
-# Field names must match sim_vv/scenario.py exactly; unknown or missing keys are errors.
+# A short move from (near) the rest pose. The easy case every controller version has to pass.
+# Keys must match sim_vv/scenario.py; unknown or missing keys are errors.
 name: reach_small
 description: Small reach from rest; the baseline case every controller must pass.
-seed: 0                   # fixes the random start-pose perturbation, so the run is reproducible
-episode_steps: 1250       # 1250 x 0.002 s = 2.5 simulated seconds
-target_qpos_rad: [0.3, -0.2, 0.1]   # one target angle per joint: shoulder, elbow, wrist
-tolerance_rad: 0.01       # pass if every joint ends within 0.01 rad (about 0.6 degrees)
+seed: 0                   # fixes the start-pose perturbation
+episode_steps: 1250       # x 0.002 s = 2.5 s
+target_qpos_rad: [0.3, -0.2, 0.1]   # shoulder, elbow, wrist
+tolerance_rad: 0.01       # about 0.6 degrees

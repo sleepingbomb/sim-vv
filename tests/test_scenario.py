@@ -1,4 +1,4 @@
-"""Tests for sim_vv/scenario.py: the example files load, and bad files fail with clear errors."""
+"""Tests for sim_vv/scenario.py: the example files load, bad files fail with a useful message."""
 
 from pathlib import Path
 
@@ -9,7 +9,7 @@ from sim_vv.scenario import load_scenario
 ROOT = Path(__file__).resolve().parents[1]
 SCENARIO_FILES = sorted((ROOT / "scenarios").glob("*.yaml"))
 
-# A valid scenario. The "bad file" tests below each break exactly one thing in it.
+# a valid scenario; each bad-file test below breaks one thing in it
 GOOD_TEXT = """\
 name: good
 description: a valid scenario used as the starting point for the bad ones
@@ -23,7 +23,7 @@ tolerance_rad: 0.01
 @pytest.mark.parametrize("path", SCENARIO_FILES, ids=lambda p: p.stem)
 def test_example_scenario_loads(path):
     scenario = load_scenario(path)
-    # The file name and the name inside it must agree, or results/<name>.csv gets confusing.
+    # the file name and the name field have to agree, results/<name>.csv uses the name
     assert scenario.name == path.stem
 
 

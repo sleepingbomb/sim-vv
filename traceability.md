@@ -1,8 +1,8 @@
 # Traceability matrix
 
-Requirement -> test -> scenarios -> status. Hand-maintained for now; a generator for it is next.
-`tests/test_traceability.py` fails if an ID here is missing from `requirements.md` or has no test,
-or if a row names a test that `tests/test_requirements.py` does not define for that ID.
+Requirement -> test -> scenarios -> status. Maintained by hand for now; generating it is on the
+list. `tests/test_traceability.py` fails if an ID here is missing from `requirements.md`, has no
+test, or names a test that `tests/test_requirements.py` does not define for that ID.
 
 | Requirement | Test in `tests/test_requirements.py` | Scenarios | Status |
 |---|---|---|---|

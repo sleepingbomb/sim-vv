@@ -1,7 +1,5 @@
 """sim-vv: scenario-based regression tests for a MuJoCo robot-arm simulation.
 
-Three small modules, used in this order:
-  scenario.py  reads and validates a scenario .yaml file
-  runner.py    runs that scenario headless in MuJoCo and logs joint positions
-  metrics.py   turns a log into pass/fail numbers (some are still TODO)
+scenario.py loads and validates a scenario .yaml file, runner.py runs it in MuJoCo and logs the
+joint positions, metrics.py turns a log into numbers (some of those are still TODO).
 """

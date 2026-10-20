@@ -1,9 +1,8 @@
-"""Read and validate one scenario file.
+"""Load and validate one scenario .yaml file.
 
-A scenario is a small YAML file that fully describes one reproducible test case:
-where the arm should go, how long it has, how close counts as "there", and which
-seed to use. Validating it here means a typo in a YAML file fails loudly, right
-away, with the file name in the message, instead of producing a silently wrong run.
+A scenario is one reproducible test case: target pose, episode length, tolerance, seed.
+Validation happens here so a typo in a yaml file fails straight away with the file name in the
+message, rather than quietly producing a wrong run.
 """
 
 from pathlib import Path
@@ -13,30 +12,24 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 
 class Scenario(BaseModel):
-    """One test case for the arm. Field names are exactly the YAML keys."""
+    """One test case for the arm. Field names are the YAML keys."""
 
-    # extra="forbid": an unknown key (for example the typo "tolerence_rad") is an error.
-    # Without it, pydantic would ignore the typo and the scenario would use no tolerance at all.
+    # unknown keys are errors, otherwise a typo like "tolerence_rad" would just be ignored
     model_config = ConfigDict(extra="forbid")
 
-    # Used as the CSV file name under results/, so keep it filesystem-safe.
-    name: str = Field(pattern=r"^[a-z0-9_]+$")
+    name: str = Field(pattern=r"^[a-z0-9_]+$")  # also the CSV file name under results/
     description: str
-    # Seeds the random start-pose perturbation in runner.py. Same seed, same run.
-    seed: int = Field(ge=0)
-    # Number of physics steps to simulate (the model's timestep decides how many seconds that is).
-    episode_steps: int = Field(gt=0)
-    # Target angle for each joint, in radians, in the model's joint order.
-    target_qpos_rad: list[float] = Field(min_length=1)
-    # How close every joint must be to its target to count as "at the goal".
-    tolerance_rad: float = Field(gt=0)
+    seed: int = Field(ge=0)  # seeds the start-pose perturbation in runner.py
+    episode_steps: int = Field(gt=0)  # seconds = episode_steps * the model's timestep
+    target_qpos_rad: list[float] = Field(min_length=1)  # one per joint, in the model's joint order
+    tolerance_rad: float = Field(gt=0)  # a joint counts as at the goal when within this
 
 
 def load_scenario(path: Path) -> Scenario:
-    """Load and validate a scenario .yaml file.
+    """Load a scenario file.
 
-    Raises ValueError (with the file path in the message) when the file is not valid YAML
-    or does not match the Scenario schema. A missing file raises FileNotFoundError as usual.
+    Bad YAML or a schema mismatch raises ValueError with the file path in the message. A missing
+    file raises FileNotFoundError as usual.
     """
     path = Path(path)
     text = path.read_text()
@@ -49,5 +42,5 @@ def load_scenario(path: Path) -> Scenario:
     try:
         return Scenario.model_validate(raw)
     except ValidationError as err:
-        # pydantic's message already lists every bad field; we only add which file it came from.
+        # pydantic already lists every bad field, just say which file
         raise ValueError(f"{path}: invalid scenario:\n{err}") from err

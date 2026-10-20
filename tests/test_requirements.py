@@ -1,8 +1,8 @@
-"""Requirement checks: one test per REQ in requirements.md, run against every scenario file.
+"""One test per REQ in requirements.md, run against every scenario file.
 
-Thresholds that are the same for every scenario live here as constants AND in requirements.md;
-test_traceability.py fails if the two disagree (a new constant needs an entry in its
-SHARED_THRESHOLDS). Per-scenario thresholds (tolerance_rad) come from the scenario file itself.
+Thresholds that are the same for every scenario are constants here and are also written in
+requirements.md; test_traceability.py checks that the two agree (a new constant needs an entry
+in its SHARED_THRESHOLDS). tolerance_rad is per scenario and comes from the yaml file.
 """
 
 import csv
@@ -18,19 +18,17 @@ from sim_vv.scenario import load_scenario
 ROOT = Path(__file__).resolve().parents[1]
 SCENARIO_FILES = sorted((ROOT / "scenarios").glob("*.yaml"))
 
-# REQ-003: the goal must be reached within the first half of the episode, so that the second
-# half is evidence that the arm holds position.
+# REQ-003: reach the goal within the first half of the episode
 TIME_TO_GOAL_MAX_FRACTION = 0.5
-# REQ-004: joint speed cap in rad/s; just under 180 deg/s (3.14 rad/s). See requirements.md.
+# REQ-004: joint speed cap, rad/s (just under 180 deg/s)
 MAX_JOINT_VELOCITY_RAD_S = 3.0
 
-# Applies to every test in this file: each one runs once per scenario file, and the file's
-# stem shows up in the test id, e.g. test_req_002_final_error_within_tolerance[reach_small].
+# every test in this file runs once per scenario file, with the file stem as the test id
 pytestmark = pytest.mark.parametrize("scenario_path", SCENARIO_FILES, ids=lambda p: p.stem)
 
 
 def run(scenario_path, results_dir):
-    """Load and run one scenario; returns everything a requirement check needs."""
+    """Load and run one scenario; return what the requirement checks need."""
     scenario = load_scenario(scenario_path)
     times, positions = run_scenario(scenario, results_dir=results_dir)
     target = np.array(scenario.target_qpos_rad)
@@ -80,7 +78,7 @@ def test_req_005_log_is_complete(scenario_path, tmp_path):
     with open(tmp_path / f"{scenario.name}.csv", newline="") as f:
         rows = list(csv.reader(f))
     header, body = rows[0], rows[1:]
-    assert len(header) == 2 + positions.shape[1]  # step, time_s, then one column per joint
+    assert len(header) == 2 + positions.shape[1]  # step, time_s, one column per joint
     assert len(body) == scenario.episode_steps
     values = np.array([[float(value) for value in row] for row in body])
     assert np.isfinite(values).all()

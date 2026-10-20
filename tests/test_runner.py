@@ -1,4 +1,4 @@
-"""Tests for sim_vv/runner.py itself (not the requirements): errors, seeding, and the CSV."""
+"""Tests for the runner itself rather than the requirements: errors, seeding, the CSV."""
 
 import csv
 
@@ -10,7 +10,7 @@ from sim_vv.scenario import Scenario
 
 
 def make_scenario(**overrides) -> Scenario:
-    """A short valid scenario built in code; each test changes one field."""
+    """A short valid scenario; each test overrides one field."""
     fields = {
         "name": "unit",
         "description": "built inside a test",

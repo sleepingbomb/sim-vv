@@ -1,5 +1,5 @@
-# Runs on every push and pull request: install, lint, test with coverage.
-# No MUJOCO_GL or virtual display is needed: the runner never renders, it only steps physics.
+# Install, lint, test with coverage on every push and PR. Nothing renders, so no display or
+# MUJOCO_GL setup is needed.
 name: ci
 
 on:

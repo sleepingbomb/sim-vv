@@ -1,26 +1,23 @@
 <!--
-  A 3-joint planar arm that moves in the horizontal (x-y) plane, like a SCARA robot.
+  3-joint planar arm in the horizontal (x-y) plane, SCARA style. Every hinge axis is vertical,
+  so gravity puts no torque on the joints and plain PD control reaches the target exactly.
+  (Change an axis to "0 1 0" to watch REQ-002 fail from gravity sag.)
 
-  Why horizontal: every hinge axis is vertical (z), so gravity produces no torque about any
-  joint and a plain PD controller can reach the target exactly. Mutation to try later: change
-  the joint axis below to "0 1 0" (a vertical arm) and watch REQ-002 fail because of gravity sag.
+  Hand-written rather than downloaded so every number is right here. For a real arm from
+  MuJoCo Menagerie see "Swapping in a real arm" in README.md.
 
-  Why inline and tiny: no download, loads in milliseconds, and every number is visible here.
-  To use a real robot from MuJoCo Menagerie instead, see "Swapping in a real arm" in README.md.
-
-  Units: metres, kilograms, seconds, radians.
+  Units: m, kg, s, rad.
 -->
 <mujoco model="simple_arm">
-  <!-- MuJoCo reads angles in DEGREES unless told otherwise. Everything in this project is radians. -->
+  <!-- MuJoCo defaults to degrees; everything in this repo is radians -->
   <compiler angle="radian"/>
 
-  <!-- 0.002 s per physics step = 500 steps per simulated second. -->
+  <!-- 500 physics steps per simulated second -->
   <option timestep="0.002"/>
 
   <default>
-    <!-- Every joint is a hinge about z with the same limits.
-         armature: extra rotor inertia so the light wrist and the heavy shoulder respond at
-         similar speeds under the same PD gains. damping: a little friction so nothing rings. -->
+    <!-- armature evens out the light wrist and the heavy shoulder under the same gains,
+         damping keeps things from ringing -->
     <joint type="hinge" axis="0 0 1" range="-3.0 3.0" armature="0.1" damping="0.2"/>
     <geom type="capsule" size="0.03"/>
   </default>
@@ -41,7 +38,7 @@
     </body>
   </worldbody>
 
-  <!-- One torque motor per joint, in joint order. runner.py relies on this 1:1 order. -->
+  <!-- one torque motor per joint, same order as the joints; runner.py relies on that -->
   <actuator>
     <motor name="shoulder_motor" joint="shoulder" ctrlrange="-20 20"/>
     <motor name="elbow_motor"    joint="elbow"    ctrlrange="-20 20"/>
